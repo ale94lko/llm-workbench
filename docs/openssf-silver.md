@@ -53,7 +53,7 @@ Passing is already **100%**. Fill the Silver (and leftover Passing `?`) fields w
 | installation_standard_variables | N/A | No POSIX DESTDIR installer. |
 | installation_development_quick | Met | README Quick Start + `npm run verify:fresh` + Dev Container / Docker Compose. |
 | external_dependencies | Met | npm lockfile; `npm update` / Dependabot PRs. |
-| dependency_monitoring | Met | Dependabot + `npm audit --audit-level=high` on every PR. |
+| dependency_monitoring | Met | Dependabot + `npm audit --audit-level=moderate` on every PR. |
 | updateable_reused_components | Met | Standard npm components; Dependabot grouped PRs. |
 | interfaces_current | Met | Nuxt 4 / Vue 3 / current provider HTTPS APIs; we do not call known-deprecated Node APIs. |
 | automated_integration_testing | Met | GitHub Actions CI on every PR/push (`test` job). |

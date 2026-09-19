@@ -48,7 +48,7 @@ jobs:
       # Manual deploys are not gated by a prior CI run — keep the quality gate here.
       - name: Audit dependencies
         if: github.event_name == 'workflow_dispatch'
-        run: npm audit --audit-level=high
+        run: npm audit --audit-level=moderate
 
       - name: Lint
         if: github.event_name == 'workflow_dispatch'

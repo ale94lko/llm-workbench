@@ -3,7 +3,7 @@
 **Date:** 2026-09-19  
 **Scope:** llm-workbench (https://github.com/ale94lko/llm-workbench), as deployed on GitHub Pages and as run via `npm run dev` / Docker Compose.  
 **Reviewers:** maintainers [@ale94lko](https://github.com/ale94lko) and [@leoflavio1989](https://github.com/leoflavio1989) (CODEOWNERS).  
-**Method:** design review against [docs/assurance-case.md](assurance-case.md) and [docs/hardening.md](hardening.md), plus current CodeQL default setup, OpenSSF Scorecard, `npm audit --audit-level=high`, and the Vitest suite.
+**Method:** design review against [docs/assurance-case.md](assurance-case.md) and [docs/hardening.md](hardening.md), plus current CodeQL default setup, OpenSSF Scorecard, `npm audit --audit-level=moderate`, and the Vitest suite.
 
 This document satisfies OpenSSF Gold `security_review`: at least one documented security review of the design in the last year.
 

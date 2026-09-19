@@ -8,7 +8,7 @@ What this project intends to do (and not do) over the next year. Updated with re
 - Maintain OpenSSF Best Practices (Passing; pursue Silver) and OpenSSF Scorecard health on `main`.
 - Keep Vitest statement coverage at **≥ 80%** (CI `test` / `fresh` jobs fail below the floor).
 - Grow paired feature+test coverage for Compare, vault, exporters, and `/api/stream` validation.
-- Keep Dependabot + `npm audit --audit-level=high` as the dependency-monitoring loop.
+- Keep Dependabot + `npm audit --audit-level=moderate` as the dependency-monitoring loop.
 - Cut signed semver tags (`git tag -s`) when a meaningful batch lands; document verify steps in [releasing.md](releasing.md).
 - Improve accessibility (keyboard, skip-link, contrast, screen-reader labels) and keep UI strings in the English i18n catalog so localization is possible.
 - Support current LLM provider HTTPS APIs (OpenAI, Anthropic, Gemini, Groq) and local Ollama / LM Studio.

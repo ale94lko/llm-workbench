@@ -51,7 +51,7 @@ Coverage report:
 npm run test:coverage
 ```
 
-CI runs lint, typecheck, tests with coverage, `npm audit --audit-level=high`, and **commitlint** on every pull request.
+CI runs lint, typecheck, tests with coverage, `npm audit --audit-level=moderate`, and **commitlint** on every pull request.
 
 ### CI vs GitHub Pages deploy
 
@@ -201,7 +201,7 @@ These CI jobs from [`.github/workflows/ci.yml`](.github/workflows/ci.yml) must b
 
 | Check | What it enforces |
 | :--- | :--- |
-| `quality` | `npm audit --audit-level=high`, lint, and typecheck |
+| `quality` | `npm audit --audit-level=moderate`, lint, and typecheck |
 | `test` | `npm run test:coverage` (Vitest thresholds fail the job) |
 | `fresh` | Clean-runner `npm run verify:fresh` (`npm ci` → build → coverage); fails the workflow on error |
 | `docker-smoke` | Compose boot from `.env.example` → `.env`; fails if `/api/health` never becomes ready |

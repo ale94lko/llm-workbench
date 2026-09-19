@@ -96,6 +96,8 @@ If you add a new write endpoint, copy the stream validation pattern (or share a 
 
 Nuxt + Tailwind Vite pull a large transitive tree (~1000 lockfile `node_modules` entries). That is expected for this stack; we keep a **single npm lockfile** and do not chase yarn/pnpm solely for optics.
 
+CI fails `npm audit` at `--audit-level=moderate` (`.github/workflows/ci.yml` `quality` job; same gate on manual Pages deploy). If moderate findings appear later, run `npm audit fix` and commit the lockfile, or document an accepted exception here — do not silently raise the audit level again ([#91](https://github.com/ale94lko/llm-workbench/issues/91)).
+
 Audit (#70):
 
 - Ran `npm dedupe` — small consolidation of the lockfile (fewer duplicate entries).

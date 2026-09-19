@@ -29,7 +29,7 @@ This document argues that the security expectations in [SECURITY.md](../SECURITY
 | Malformed `/api/stream` body | Allowlist schema; 400 on failure; logs omit `apiKey` |
 | Secret leakage in logs / exporters | Logger redaction; exporters use env placeholders |
 | MITM of provider traffic | HTTPS to providers; platform TLS certificate verification |
-| Dependency compromise | `npm ci` lockfile, `npm audit --audit-level=high`, Dependabot, CodeQL |
+| Dependency compromise | `npm ci` lockfile, `npm audit --audit-level=moderate`, Dependabot, CodeQL |
 | Supply-chain of git tags | Signed tags (`git tag -s`); verify with `git verify-tag` |
 
 ## Trust boundaries

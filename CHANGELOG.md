@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stream API malformed-input tests and contributor note for POST boundary validation ([#59](https://github.com/ale94lko/llm-workbench/issues/59))
 
 ### Changed
+- Lower CI `npm audit` gate from `--audit-level=high` to `--audit-level=moderate` ([#91](https://github.com/ale94lko/llm-workbench/issues/91))
 - Raised Vitest coverage gates to lines/functions/statements ≥90% and branches ≥80% for OpenSSF Gold
 - Raised Vitest coverage gates to lines/functions/statements ≥80% and branches ≥65% for OpenSSF Silver (`test_statement_coverage80`)
 - Pin GitHub Actions to commit SHAs; add OpenSSF Scorecard and DCO CI jobs (CodeQL stays on GitHub default setup)

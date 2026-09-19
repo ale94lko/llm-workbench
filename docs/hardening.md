@@ -11,7 +11,7 @@ Hardening mechanisms used so defects are less likely to become security issues.
 | TypeScript + ESLint in CI | `npm run typecheck`, `npm run lint` |
 | CodeQL | GitHub default setup (Settings → Code security). Do not add `.github/workflows/codeql.yml` while default setup is on — SARIF upload is rejected. |
 | OpenSSF Scorecard | `.github/workflows/scorecard.yml` |
-| `npm audit --audit-level=high` | `.github/workflows/ci.yml` `quality` job |
+| `npm audit --audit-level=moderate` | `.github/workflows/ci.yml` `quality` job |
 | Dependabot | `.github/dependabot.yml` |
 | Pinned Actions SHAs | `.github/workflows/*` |
 | Coverage floor | `vitest.config.ts` (≥ 90% statements/lines/functions, ≥ 80% branches) |
