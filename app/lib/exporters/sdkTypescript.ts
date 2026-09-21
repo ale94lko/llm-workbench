@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { envVarName, sampling } from './shared'
 
 /** Official provider TypeScript / Node SDK snippets (no API keys inlined). */
@@ -121,7 +122,7 @@ for await (const chunk of stream) {
 
 const client = new OpenAI({
   baseURL: '${base}/v1',
-  apiKey: 'lm-studio',
+  apiKey: '${LM_STUDIO_PLACEHOLDER_KEY}',
 });
 
 const stream = await client.chat.completions.create({

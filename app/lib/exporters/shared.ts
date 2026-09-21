@@ -4,6 +4,7 @@
 import type { ProviderId } from '~/types/llm'
 import { resolveGenerationParams } from '~/lib/generation'
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 
 export function envVarName(provider: Exclude<ProviderId, 'ollama' | 'lmstudio'>): string {
   switch (provider) {
@@ -75,7 +76,7 @@ export function phpHeadersArray(provider: ProviderId): string {
   const lines = [`    'Content-Type: application/json'`]
 
   if (provider === 'lmstudio') {
-    lines.push(`    'Authorization: Bearer lm-studio'`)
+    lines.push(`    'Authorization: Bearer ${LM_STUDIO_PLACEHOLDER_KEY}'`)
   }
   else if (provider !== 'ollama') {
     const env = `getenv('${envVarName(provider)}')`

@@ -5,6 +5,7 @@ import type { ProviderId, StreamRequest } from '~/types/llm'
 import { resolveGenerationParams } from '~/lib/generation'
 import { applyProviderTools } from '~/lib/mcp/providerTools'
 import type { McpToolDefinition } from '~/lib/mcp/types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from '~/lib/exporters/constants'
 
 export type StreamFormat = 'sse' | 'ollama'
 
@@ -54,7 +55,7 @@ export function buildProviderRequest(request: StreamRequest): ProviderRequest {
         url: `${base}/v1/chat/completions`,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey || 'lm-studio'}`,
+          Authorization: `Bearer ${apiKey || LM_STUDIO_PLACEHOLDER_KEY}`,
         },
         body: JSON.stringify(withTools(provider, {
           model,

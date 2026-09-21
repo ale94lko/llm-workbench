@@ -21,6 +21,7 @@ import {
   toChartData,
 } from '../app/lib/metrics'
 import { firstSchemaIssue } from '../app/lib/schemas/promptBackup'
+import { LM_STUDIO_PLACEHOLDER_KEY } from '../app/lib/exporters/constants'
 import {
   createPromptBackup,
   mergePromptBackup,
@@ -80,7 +81,7 @@ describe('OpenSSF Gold coverage gaps', () => {
         lmStudioUrl: 'http://localhost:1234///',
       })
       expect(req.url).toBe('http://localhost:1234/v1/chat/completions')
-      expect(req.headers.Authorization).toBe('Bearer lm-studio')
+      expect(req.headers.Authorization).toBe(`Bearer ${LM_STUDIO_PLACEHOLDER_KEY}`)
 
       const defaults = buildProviderRequest({
         ...openaiRequest,

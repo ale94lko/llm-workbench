@@ -10,6 +10,7 @@ import {
   getBaseUrl,
   phpHeadersArray,
 } from '~/lib/exporters/shared'
+import { LM_STUDIO_PLACEHOLDER_KEY } from '~/lib/exporters/constants'
 import type { ProviderId } from '~/types/llm'
 
 describe('lib/exporters', () => {
@@ -70,7 +71,7 @@ describe('lib/exporters', () => {
     }
     else {
       expect(code).toContain('http://localhost:1234/v1')
-      expect(code).toContain('lm-studio')
+      expect(code).toContain(LM_STUDIO_PLACEHOLDER_KEY)
     }
   })
 
@@ -103,7 +104,7 @@ describe('lib/exporters', () => {
     if (provider === 'gemini') expect(code).toContain('@langchain/google-genai')
     if (provider === 'groq') expect(code).toContain('@langchain/groq')
     if (provider === 'ollama') expect(code).toContain('@langchain/ollama')
-    if (provider === 'lmstudio') expect(code).toContain('lm-studio')
+    if (provider === 'lmstudio') expect(code).toContain(LM_STUDIO_PLACEHOLDER_KEY)
   })
 
   it.each(providers)('langchain-py covers provider %s with env placeholders', (provider) => {
@@ -140,7 +141,7 @@ describe('lib/exporters', () => {
     }
     else if (provider === 'lmstudio') {
       expect(code).toContain('http://localhost:1234/v1/chat/completions')
-      expect(code).toContain("Authorization: 'Bearer lm-studio'")
+      expect(code).toContain(`Authorization: 'Bearer ${LM_STUDIO_PLACEHOLDER_KEY}'`)
     }
     else if (provider === 'anthropic') {
       expect(code).toContain('https://api.anthropic.com/v1/messages')
@@ -177,7 +178,7 @@ describe('lib/exporters', () => {
     }
     else if (provider === 'lmstudio') {
       expect(code).toContain('http://localhost:1234/v1/chat/completions')
-      expect(code).toContain('Authorization: Bearer lm-studio')
+      expect(code).toContain(`Authorization: Bearer ${LM_STUDIO_PLACEHOLDER_KEY}`)
     }
     else if (provider === 'gemini') {
       expect(code).toContain('generativelanguage.googleapis.com')
@@ -215,7 +216,7 @@ describe('lib/exporters', () => {
     }
     else if (provider === 'lmstudio') {
       expect(code).toContain('http://localhost:1234/v1/chat/completions')
-      expect(code).toContain('Authorization: Bearer lm-studio')
+      expect(code).toContain(`Authorization: Bearer ${LM_STUDIO_PLACEHOLDER_KEY}`)
     }
     else if (provider === 'anthropic') {
       expect(code).toContain("getenv('ANTHROPIC_API_KEY')")
@@ -264,7 +265,7 @@ describe('lib/exporters', () => {
     }
     else {
       expect(code).toContain('http://localhost:1234/v1/chat/completions')
-      expect(code).toContain('Bearer lm-studio')
+      expect(code).toContain(`Bearer ${LM_STUDIO_PLACEHOLDER_KEY}`)
     }
   })
 
@@ -333,7 +334,7 @@ describe('lib/exporters/shared', () => {
     expect(phpHeadersArray('groq')).toContain("Authorization: Bearer ' . getenv('GROQ_API_KEY')")
     expect(phpHeadersArray('anthropic')).toContain("x-api-key: ' . getenv('ANTHROPIC_API_KEY')")
     expect(phpHeadersArray('gemini')).toContain("x-goog-api-key: ' . getenv('GEMINI_API_KEY')")
-    expect(phpHeadersArray('lmstudio')).toContain("'Authorization: Bearer lm-studio'")
+    expect(phpHeadersArray('lmstudio')).toContain(`'Authorization: Bearer ${LM_STUDIO_PLACEHOLDER_KEY}'`)
     expect(phpHeadersArray('ollama')).toBe("[\n    'Content-Type: application/json',\n]")
   })
 })

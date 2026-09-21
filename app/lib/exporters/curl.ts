@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { formatCurlHeaders, getBaseUrl, sampling } from './shared'
 
 export function exportCurl(opts: ExportOptions): string {
@@ -25,7 +26,7 @@ export function exportCurl(opts: ExportOptions): string {
     const url = getBaseUrl('lmstudio', opts.model, opts.lmStudioUrl)
     return `curl ${url} \\
   -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer lm-studio" \\
+  -H "Authorization: Bearer ${LM_STUDIO_PLACEHOLDER_KEY}" \\
   -d '${JSON.stringify({
     model: opts.model,
     messages: [

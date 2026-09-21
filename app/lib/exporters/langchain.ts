@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { envVarName, sampling } from './shared'
 
 /** LangChain.js chat-model streaming snippet. */
@@ -124,7 +125,7 @@ import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 
 const model = new ChatOpenAI({
   model: '${opts.model}',
-  apiKey: 'lm-studio',
+  apiKey: '${LM_STUDIO_PLACEHOLDER_KEY}',
   configuration: { baseURL: '${base}/v1' },
   temperature: ${temperature},
   maxTokens: ${maxTokens},
@@ -251,7 +252,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 model = ChatOpenAI(
     model="${opts.model}",
-    api_key="lm-studio",
+    api_key="${LM_STUDIO_PLACEHOLDER_KEY}",
     base_url="${base}/v1",
     temperature=${temperature},
     max_tokens=${maxTokens},

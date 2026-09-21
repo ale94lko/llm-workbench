@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { getBaseUrl, sampling } from './shared'
 
 export function exportPython(opts: ExportOptions): string {
@@ -127,7 +128,7 @@ for line in response.iter_lines():
 
 response = requests.post(
     "${url}",
-    headers={"Authorization": "Bearer lm-studio"},
+    headers={"Authorization": "Bearer ${LM_STUDIO_PLACEHOLDER_KEY}"},
     json={
         "model": "${opts.model}",
         "messages": [

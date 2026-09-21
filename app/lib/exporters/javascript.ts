@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { formatJsHeaders, getBaseUrl, sampling } from './shared'
 
 export function exportJavaScript(opts: ExportOptions): string {
@@ -44,7 +45,7 @@ while (true) {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: 'Bearer lm-studio',
+    Authorization: 'Bearer ${LM_STUDIO_PLACEHOLDER_KEY}',
   },
   body: JSON.stringify({
     model: '${opts.model}',

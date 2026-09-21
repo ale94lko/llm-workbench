@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { ExportOptions } from './types'
+import { LM_STUDIO_PLACEHOLDER_KEY } from './constants'
 import { envVarName, sampling } from './shared'
 
 /** Vercel AI SDK (`ai` + `@ai-sdk/*`) streaming snippet for the active provider. */
@@ -116,7 +117,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 
 const lmstudio = createOpenAI({
   baseURL: '${base}/v1',
-  apiKey: 'lm-studio',
+  apiKey: '${LM_STUDIO_PLACEHOLDER_KEY}',
 });
 
 const result = streamText({
