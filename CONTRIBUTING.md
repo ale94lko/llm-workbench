@@ -239,6 +239,13 @@ Branch protection / rulesets are configured in GitHub **Settings → Rules** (no
 
 Settings UI: [Rulesets](https://github.com/ale94lko/llm-workbench/settings/rules).
 
+## Commit requirements
+
+- **One concern per commit**: keep each commit focused on a single logical change. Do not bundle unrelated refactors with feature work.
+- **Test-paired commits**: when changing behavior (`feat:` or `fix:`), the matching `tests/` changes must be included in the **same commit** as the source code change.
+- **Conventional Commits**: commit messages must follow [Conventional Commits](https://www.conventionalcommits.org/).
+- **Sign off**: use `git commit -s` (DCO).
+
 ## Workflow
 
 1. Search [existing issues](https://github.com/ale94lko/llm-workbench/issues) before opening a new one. Use an [issue form](https://github.com/ale94lko/llm-workbench/issues/new/choose) when creating one.
