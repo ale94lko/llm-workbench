@@ -154,7 +154,7 @@ The repo deploys via GitHub Actions after **CI** succeeds on `main` (deploy does
 
 1. Go to **Settings → Pages → Build and deployment**
 2. Set **Source** to **GitHub Actions**
-3. Push to `main` — `ci.yml` runs the quality gate; on success, `deploy-pages.yml` generates and publishes the site
+3. Push to `main` — `ci.yml` runs the quality gate and uploads the `pages-site` artifact; on success, `deploy-pages.yml` publishes that artifact (no privileged rebuild from `workflow_run` checkout)
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the CI ↔ deploy relationship.
 
