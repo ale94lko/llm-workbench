@@ -47,7 +47,7 @@
     "@pinia/testing": "^2.0.1",
     "@playwright/test": "^1.63.0",
     "@vitejs/plugin-vue": "^6.0.9",
-    "@vitest/coverage-v8": "^5.0.1",
+    "@vitest/coverage-v8": "^5.0.2",
     "@vue/test-utils": "^2.5.1",
     "eslint": "^10.11.0",
     "happy-dom": "^20.14.5",
