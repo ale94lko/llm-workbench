@@ -161,3 +161,38 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: node scripts/check-dco.mjs
+
+  # Static site for GitHub Pages. Only on main push; Deploy downloads this
+  # artifact via workflow_run (no privileged checkout of head_sha).
+  pages-artifact:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [quality, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate static site
+        run: npm run generate
+        env:
+          NUXT_APP_BASE_URL: /${{ github.event.repository.name }}/
+
+      - name: Disable Jekyll processing
+        run: touch .output/public/.nojekyll
+
+      - name: Upload pages site artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pages-site
+          path: .output/public
+          if-no-files-found: error
+          retention-days: 5

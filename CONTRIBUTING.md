@@ -56,9 +56,9 @@ CI runs lint, typecheck, tests with coverage, offline unit proof (`npm run test:
 
 ### CI vs GitHub Pages deploy
 
-- **`CI`** (`.github/workflows/ci.yml`) is the quality gate on pull requests and pushes to `main`: `quality` (audit, lint, typecheck), a dedicated `test` job (`npm run test:coverage` + `npm run test:offline`), `fresh` (`npm run verify:fresh` on a clean runner), plus `docker-smoke` (Compose boot + `/api/health`).
-- **`Deploy to GitHub Pages`** (`.github/workflows/deploy-pages.yml`) does **not** re-run that gate on push to `main`. It starts via `workflow_run` after a successful **CI** run that was a **push to `main`**, checks out that exact commit, then only generates and publishes the static site.
-- Failed CI on `main` blocks deploy. Manual `workflow_dispatch` on the deploy workflow still runs the full quality steps before `npm run generate`, so a broken site cannot be published that way either.
+- **`CI`** (`.github/workflows/ci.yml`) is the quality gate on pull requests and pushes to `main`: `quality` (audit, lint, typecheck), a dedicated `test` job (`npm run test:coverage` + `npm run test:offline`), `fresh` (`npm run verify:fresh` on a clean runner), plus `docker-smoke` (Compose boot + `/api/health`). On **push to `main`**, after `quality` + `test`, the `pages-artifact` job runs `npm run generate` and uploads a `pages-site` artifact.
+- **`Deploy to GitHub Pages`** (`.github/workflows/deploy-pages.yml`) starts via `workflow_run` after a successful **CI** push to `main`. That privileged path **never** checks out `workflow_run.head_sha` or runs install/build scripts from it — it only downloads the `pages-site` artifact and publishes it (trust boundary for CodeQL `actions/untrusted-checkout`).
+- Failed CI on `main` blocks deploy. Manual `workflow_dispatch` on the deploy workflow still checks out **`github.sha` only**, runs the full quality steps, then `npm run generate`, so a broken site cannot be published that way either.
 - Vitest uses `pool: 'threads'` with `isolate: false` to cut happy-dom startup cost; `tests/setup.ts` resets storage and the offline `fetch` guard per test. Prefer not to rely on order-dependent global state.
 - Coverage thresholds enforce lines/functions/statements (≥90%) and branches (≥80%) via `vitest.config.ts` (`perFile: false`). Unmet thresholds make `npm run test:coverage` exit non-zero, so the CI `test` / `fresh` jobs fail. Do not lower thresholds just to pass.
 
