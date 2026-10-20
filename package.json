@@ -20,6 +20,7 @@
     "test:e2e:smoke": "playwright test",
     "verify:fresh": "node scripts/verify-fresh-clone.mjs",
     "check:headers": "node scripts/check-license-headers.mjs",
+    "audit:ci": "node scripts/check-npm-audit.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck"
@@ -51,12 +52,12 @@
     "@vue/test-utils": "^2.5.0",
     "eslint": "^10.10.0",
     "happy-dom": "^20.14.5",
-    "serve": "^14.2.6",
     "typescript": "~5.9.3",
     "vitest": "^5.0.0",
     "vue-tsc": "^3.3.11"
   },
   "overrides": {
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "compression": "1.8.2"
   }
 }
