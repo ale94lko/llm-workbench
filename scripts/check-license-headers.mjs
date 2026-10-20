@@ -26,6 +26,7 @@ const SKIP_DIRS = new Set([
   'node_modules',
   'playwright-report',
   'test-results',
+  'vendor',
 ])
 
 /**

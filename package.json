@@ -50,6 +50,7 @@
     "@vitejs/plugin-vue": "^6.0.9",
     "@vitest/coverage-v8": "^5.0.0",
     "@vue/test-utils": "^2.5.0",
+    "braces": "file:vendor/braces",
     "eslint": "^10.10.0",
     "happy-dom": "^20.14.5",
     "typescript": "~5.9.3",
@@ -58,6 +59,8 @@
   },
   "overrides": {
     "typescript": "~5.9.3",
-    "compression": "1.8.2"
+    "compression": "1.8.2",
+    "braces": "file:vendor/braces",
+    "node-forge": "https://codeload.github.com/digitalbazaar/forge/tar.gz/529a5b4f004595c8f8a75697eca958efe1a2f70d"
   }
 }

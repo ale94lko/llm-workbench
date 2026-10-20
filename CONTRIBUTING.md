@@ -52,7 +52,7 @@ Coverage report:
 npm run test:coverage
 ```
 
-CI runs lint, typecheck, tests with coverage, offline unit proof (`npm run test:offline`), `npm run audit:ci` (moderate+ audit with dated exceptions in `docs/dev-notes.md`), and **commitlint** on every pull request.
+CI runs lint, typecheck, tests with coverage, offline unit proof (`npm run test:offline`), `npm audit --audit-level=moderate`, and **commitlint** on every pull request.
 
 ### CI vs GitHub Pages deploy
 
@@ -213,7 +213,7 @@ These CI jobs from [`.github/workflows/ci.yml`](.github/workflows/ci.yml) must b
 
 | Check | What it enforces |
 | :--- | :--- |
-| `quality` | `npm run audit:ci`, lint, and typecheck |
+| `quality` | `npm audit --audit-level=moderate`, lint, and typecheck |
 | `test` | `npm run test:coverage` + `npm run test:offline` (no live network / Ollama) |
 | `fresh` | Clean-runner `npm run verify:fresh` (`npm ci` → build → coverage); fails the workflow on error |
 | `docker-smoke` | Compose boot from `.env.example` → `.env`; fails if `/api/health` never becomes ready |

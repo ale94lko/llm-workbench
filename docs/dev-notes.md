@@ -119,16 +119,16 @@ If you add a new write endpoint, copy the stream validation pattern (or share a 
 
 Nuxt + Tailwind Vite pull a large transitive tree (~1000 lockfile `node_modules` entries). That is expected for this stack; we keep a **single npm lockfile** and do not chase yarn/pnpm solely for optics.
 
-CI runs `npm run audit:ci` (`scripts/check-npm-audit.mjs`) in the `quality` job (same gate on manual Pages deploy). The script still evaluates `npm audit --audit-level=moderate` and fails on any new moderate+ finding. If moderate findings appear later, run `npm audit fix` and commit the lockfile, or add a **dated** entry to `ACCEPTED_ADVISORIES` in that script and list it below — do not silently raise the audit level again ([#91](https://github.com/ale94lko/llm-workbench/issues/91)).
+CI fails `npm audit` at `--audit-level=moderate` (`.github/workflows/ci.yml` `quality` job; same gate on manual Pages deploy). If moderate findings appear later, run `npm audit fix` and commit the lockfile, or document an accepted exception here — do not silently raise the audit level again ([#91](https://github.com/ale94lko/llm-workbench/issues/91)). Optional local helper: `npm run audit:ci` (`scripts/check-npm-audit.mjs`).
 
-### Accepted audit exceptions (temporary)
+### Temporary patched overrides (until upstream releases)
 
-| GHSA | Package | Expires (UTC) | Why |
-| --- | --- | --- | --- |
-| [GHSA-86w9-cpqp-85rv](https://github.com/advisories/GHSA-86w9-cpqp-85rv) | `node-forge` (via `listhen` → `nitropack` / Nuxt) | 2026-11-20 | No patched npm release yet (`<=1.4.0`); upstream [forge#1152](https://github.com/digitalbazaar/forge/pull/1152) still open. Dev/server tooling only — not used for app crypto. |
-| [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) | `braces` (via `micromatch` → `globby` → `nitropack`) | 2026-11-20 | No patched npm release (`<=3.0.3`); DoS via pathological brace patterns in build tooling, not user-facing input. |
+| Advisory | Override | Notes |
+| --- | --- | --- |
+| [GHSA-86w9-cpqp-85rv](https://github.com/advisories/GHSA-86w9-cpqp-85rv) | `node-forge` → tarball of [forge#1152](https://github.com/digitalbazaar/forge/pull/1152) (`1.4.1-0`) | No official npm release yet; used only via `listhen` tooling |
+| [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) | `braces` → `file:vendor/braces@3.0.4` | Adds nesting-depth guard (max 100); drop when upstream ships a fix |
 
-Re-check both before the expiry date; remove the allowlist entries as soon as installable fixes land.
+Also pin `compression@1.8.2` via overrides (closes GHSA-vc2v-76pw-4v95 through `serve`).
 
 Audit (#70):
 
