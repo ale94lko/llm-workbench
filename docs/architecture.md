@@ -37,6 +37,18 @@ Browser (SPA, ssr: false)
 | RAG | `app/lib/rag/`, `useRagStore`, `PlaygroundRagDocumentsPanel` | In-browser document chunking, local/Ollama embeddings, prompt injection |
 | i18n | `app/i18n/en.ts` | English message catalog (localization-ready) |
 
+
+## Input Validation Coverage
+
+llm-workbench uses [Valibot](https://valibot.dev/) to strictly validate all external data entering the application boundaries. Malformed input is rejected with typed errors before processing.
+
+| Entry Point | Validation Schema / Module | Rejection Behavior |
+| --- | --- | --- |
+| **Stream requests** | `app/lib/validateStreamRequest.ts` | 400 Bad Request at Nitro proxy or UI stream abort |
+| **Prompt backups** | `app/lib/schemas/promptBackup.ts` | Import fails; modal shows schema error |
+| **.prompt files** | `app/lib/schemas/promptFile.ts` | File load fails; modal shows schema error |
+| **Dataset JSON/CSV** | `app/lib/schemas/dataset.ts` | Import is aborted; malformed rows skipped/rejected |
+| **MCP proxy payloads** | `app/lib/mcp/validate.ts` | 400 Bad Request at proxy; client logs validation error |
 ## Trust boundaries
 
 1. **User's browser** — the only place decrypted API keys exist. The vault ciphertext may sit in `localStorage`; the derived CryptoKey is tab-scoped (`sessionStorage`).
