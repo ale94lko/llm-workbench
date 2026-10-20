@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "overall": 77.7,
+  "recordedAt": "2026-09-22",
+  "source": "Frontend health score scan (same as baseline floor until the next re-scan).",
+  "categories": {
+    "History & Maintenance": 45,
+    "Dependency Health": 70,
+    "Architecture & Robustness": 75,
+    "Code Cleanliness": 85,
+    "Security Hygiene": 70,
+    "Docs & Onboarding": 90
+  }
+}

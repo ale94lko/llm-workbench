@@ -284,6 +284,26 @@ Full maintainer steps and checklist: [`docs/releasing.md`](docs/releasing.md).
   - `vue-router` — Nuxt peer / runtime router (not imported directly in app code)
   - `@emnapi/core` and `@emnapi/runtime` — direct pins so Linux `npm ci` can resolve Tailwind Oxide / WASI optional natives in the lockfile (do not remove without verifying CI on ubuntu-latest)
 
+## Repo health score (non-regression)
+
+The daily / manual [Repo Health Score Badge](.github/workflows/health_score.yml) workflow publishes the README badge and runs a **baseline gate** (`scripts/check-health-score-gate.mjs`):
+
+| File | Role |
+| :--- | :--- |
+| [`docs/health-score-baseline.json`](docs/health-score-baseline.json) | Floor: `overall` + per-category scores. `knownGoodOverall` (80.0) records the pre-regression target. |
+| [`docs/health-score-latest.json`](docs/health-score-latest.json) | Last measured scan used for comparison. |
+
+Gate rules (unless workflow_dispatch **`allow-score-drop`** is checked):
+
+- Fail (and open/update a `ci` issue) if `overall` drops by more than **0.5** vs baseline.
+- Fail if any shared category drops by **≥3** points.
+
+Before merging PRs that claim to improve the health score:
+
+1. Do **not** reintroduce scanner-visible secret / placeholder patterns (exporters, fixtures, docs samples).
+2. Keep logger / env / dependency signals detectable (structured server logger, `.env.example`, Dependabot/Renovate cadence).
+3. Update `docs/health-score-latest.json` with the new scan, confirm `node scripts/check-health-score-gate.mjs` passes, then raise the baseline with workflow_dispatch **`update-baseline`** (or a small docs PR) so the floor only moves upward.
+
 ## Security reports
 
 Please do not open public issues for vulnerabilities. Follow [SECURITY.md](SECURITY.md).
