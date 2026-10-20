@@ -1,16 +1,96 @@
 name: Repo Health Score Badge
+
 on:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: '0 2 * * *'
   workflow_dispatch:
+    inputs:
+      allow-score-drop:
+        description: 'Allow overall/category score drops for this run (bypass gate)'
+        type: boolean
+        default: false
+      update-baseline:
+        description: 'Raise docs/health-score-baseline.json to latest when latest ≥ baseline'
+        type: boolean
+        default: false
+
 permissions:
   contents: write
+  issues: write
+
 jobs:
   build:
-    name: Job to deploy badge
+    name: Badge + health score gate
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
       - name: Get Repo Health Score Badge
         uses: ale94lko/repo-health-score@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Health score non-regression gate
+        id: gate
+        env:
+          ALLOW_SCORE_DROP: ${{ inputs.allow-score-drop == true && '1' || '' }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [ -n "${ALLOW_SCORE_DROP}" ]; then
+            args+=(--allow-score-drop)
+          fi
+          set +e
+          node scripts/check-health-score-gate.mjs "${args[@]}"
+          code=$?
+          set -e
+          echo "exit_code=${code}" >> "$GITHUB_OUTPUT"
+          if [ "${code}" -ne 0 ]; then
+            echo "gate_failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "gate_failed=false" >> "$GITHUB_OUTPUT"
+          fi
+          exit "${code}"
+
+      - name: Open or comment regression issue
+        if: failure() && steps.gate.outputs.gate_failed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          title='health-score: regression vs docs/health-score-baseline.json'
+          body="$(node scripts/check-health-score-gate.mjs 2>&1 || true)
+
+          Automated by \`Repo Health Score Badge\` on \`${GITHUB_SHA}\`.
+          Re-scan, fix detector signals (secrets/logger/env/deps), update \`docs/health-score-latest.json\`, then raise the baseline with workflow_dispatch \`update-baseline\` when scores recover.
+          Related: #132"
+          existing="$(gh issue list --search "in:title ${title}" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "${existing}" ]; then
+            gh issue comment "${existing}" --body "${body}"
+          else
+            gh issue create --title "${title}" --body "${body}" --label ci
+          fi
+
+      - name: Raise baseline to latest
+        if: ${{ inputs.update-baseline == true }}
+        run: node scripts/check-health-score-gate.mjs --update-baseline
+
+      - name: Commit raised baseline
+        if: ${{ inputs.update-baseline == true }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs/health-score-baseline.json; then
+            echo 'Baseline unchanged'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/health-score-baseline.json
+          git commit -m "ci: raise health-score baseline after improved scan"
+          git push
