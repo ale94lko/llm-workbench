@@ -33,7 +33,7 @@
     "@sentry/node": "^11.8.0",
     "@tailwindcss/vite": "^4.3.3",
     "clsx": "^2.1.1",
-    "nuxt": "^4.6.2",
+    "nuxt": "^4.6.4",
     "pinia": "^4.0.3",
     "pinia-plugin-persistedstate": "^4.7.1",
     "tailwind-merge": "^3.7.0",
